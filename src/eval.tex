@@ -1,0 +1,58 @@
+\section{Classification Evaluation}
+
+Let $Z$ a probability distribution over $X$ and $S$ $n$ instances of $X$ sampled with $Z$.
+
+Performance evaluation are based on accuracy and error rate:
+
+The true error of $h$ repsect $c$ and distribution $Z$ is 
+\[
+error_Z(h) = Pr_{x \in Z}[c(x) \neq h(x)]
+\]
+The sample error of $h$ repsect $c$ and $S$ is
+\[
+error_S(h) = \frac{|\{x \in S | c(x) \neq h(x)\}|}{|S|}
+\]
+
+Let $accuracy(h) = 1 - error(h)$.
+$accuracy_S(h)$ estimates $accuracy_Z(h)$ but if $accuracy_S(h)$ is very high but $accuracy_Z(h)$ low then $h$ is not useful. $h$ must be accurate also in $x \notin S$.
+
+IN order to bet and unbiased $accuracy_S(h)$ $S$ must be chosen independently from $D$. For example we can split $D = T \cup S$ and train on $T$.
+
+AN hypotheses $h$ overfits the training data if exists an $h'$ such that
+\[
+error_S(h) < error_S(h') \land error_Z(h) > error_Z(h')
+\]
+
+We can evaluate an hypotheses $h$ estimating the error on different $S$, for example using the K-Fold method:
+
+\begin{pseudo}
+$D = S_1 \cup S_2 \cup ... \cup S_k$
+for $i = 1$ to $k$
+    train $h_i$ on $D \setminus S_i$
+    $\delta = \delta + error_{S_i}(h_i)$
+$error_{k, D} = \frac{\delta}{k}$
+\end{pseudo}
+
+Accuracy can be not a valid metric in some cases. Consider binary classification problem with a $D$ with $98\%$ of ok labels and $2\%$ of not ok labels. A dumb hypothesis that returns always ok has an high accuracy.
+
+\bigskip
+\begin{tabular}{ | l | l | l | }
+\hline
+\textbf{True class / Predicted class} & ok & not ok \\ \hline
+ok & True Positive (TP) & False Negative (FN) \\ \hline
+not ok & False Positive (FP) & True Negative (TN) \\ \hline
+\end{tabular}
+\bigskip
+
+From this values derives other measures:
+
+\begin{itemize}
+    \item Accuracy: $(TP + TN) / (TP + FN + TN + FP)$
+    \item Precision: $TP / (TP + FP)$
+    \item Recall: $TP / (TP + FN)$
+    \item False positives rate: $FP / (FP + TN)$
+    \item False negatives rate: $FN / (FN + TP)$
+    \item F-Measure: $2*$Preision$*$Recall$/($Precision + Recall$)$
+\end{itemize}
+
+A confusion matrix represents in each entry how many an element of class $C_i$ is misclassified as an element of class $C_j$.

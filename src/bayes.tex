@@ -1,0 +1,68 @@
+\section{Bayes Networks}
+
+Let's recall some definition from the thery of probability.
+
+\begin{itemize}
+    \item Conditional probability: $P(a|b) = P(a \land b)/P(b)$ if $P(b) \neq 0$;
+    \item Product rule: $P(a \land b) = P(a | b)/P(b) = P(b | a)/P(a)$;
+    \item Sum rule: $P(a \lor b) = P(a) + P(b) - P(a \land b)$;
+    \item Total probability: $P(a) = P(a|b)*P(b)+P(a|\lnot b)*P(\lnot b)$ and in general $P(X) = \sum_{y \in values(Y)} P(X | Y = y)*P(Y = y)$ when all values $y$ are mutually exclusive.
+    \item Idependence: $X$ is independent from $Y$ given $Z$ if $P(X,Y|Z) = P(X|Z)$;
+    \item Bayes rule: $P(a|b) = \frac{P(b|a)*P(a)}{P(b)}$;
+\end{itemize}
+
+
+A classification problem can be interpreted as a probabilistic estimation. Given $x' \notin D$ the best prediction is $h^*(x') = y^*$
+\[
+v^* = \arg\max_{y \in Y} P(y | x', D)
+\]
+
+Also learning is probabilistic. From the Bayes rule we have that
+\[
+P(h|D) = \frac{P(D|h)*P(h)}{P(D)}
+\]
+
+In general we want the most probable hypothesis given $D$, we call it {\em maximum a posteriori hypothesis}:
+\[
+h_{MAP} = \arg\max_{h \in H} P(h|D) = \arg\max_{h \in H} \frac{P(D|h)*P(h)}{P(D)} = \arg\max_{h \in H}P(D|h)*P(h)
+\]
+If we assume that all the hypothesis have the same probability we can simplify an choose the {\em maximum likehood hypothesis}:
+\[
+h_{ML} = \arg\max_{h \in H} P(D|h)
+\]
+
+Note: $h_{ML} = \arg\max_{h \in H} P(D|h) = \arg\max_{h \in H} log(P(D|h))$ and you can derivate to get the max.
+
+A learning process can be the brute force of all $h \in H$ returning $h_{MAP}$ after computing all posteriori probabilities.
+
+Given $x' \notin D$ $h_{MAP}(x')$ may not be the best classification!
+
+Here we must introduce the {\em Bayes Optimal Classifier}:
+\[
+P(y | x', D) = \mathlarger{\sum}_{h \in H} P(y | x', h)*P(h|D)
+\]
+So we have that:
+\[
+y_{opt} = \arg\max_{y \in Y} \mathlarger{\sum}_{h \in H} P(y | x', h)*P(h|D)
+\]
+
+This is very powerful and returns the classification with the highest probability but it is not practicable when $H$ is large.
+
+{\em Naive Bayes Classifier} uses condition idependence to estimate the solution.
+Consider each $x$ composed by attributes $(a_1, a_2, ..., a_n)$.
+\[
+\arg\max_{y \in Y}P(y|x,D) = \arg\max_{y \in Y}P(y|a_1, a_2, ..., a_n,D)
+\]
+For $x' \notin D$ the most probable classification thanks to Bayes is
+\[
+y_{MAP} = \arg\max_{y \in Y}P(y|a_1, a_2, ..., a_n,D) = \arg\max_{y \in Y}P(a_1, a_2, ..., a_n| y, D)*P(y|D)
+\]
+With the assuption of independece between the attributes we have that
+\[
+y_{NB} = \arg\max_{y \in Y}P(y|D) * \mathlarger{\Pi}_{i=1}^n P(a_i|y,D)
+\]
+
+
+
+
+

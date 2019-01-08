@@ -1,0 +1,26 @@
+\section{Introduction}
+
+A generic Machine Learning (ML) problem is learning a function $c : X \rightarrow Y$ given a dataset $D$ containing sampled information about $c$. The learned approximated function $h$ must be as close as possible to $c$ also on elements $x \notin D$.
+
+Types of ML problems:
+
+\begin{itemize}
+    \item Supervised Learning: $D \subset \{(x, y)\ | x \in X, y \in Y\}$;
+    \begin{itemize}
+        \item $X$ finite sets: Discrete;
+        \item $X \subset R^n$: Continuos;
+        \item $Y$ finite sets: Classification;
+        \item $Y \subset R^k$: Regression;
+    \end{itemize}
+    \item Unsupervised Learning: $D \subset \{x | x \in X\}$ and $Y$ must be created grouping similar instances in $X \cap D$;
+    \item Reinforcement Learning: set of states $S$ with associated actions and rewards, $D = \{(a_i^1 ... a_i^n, r_i) | i \in 1 ... |S|\}$ and the learned function is a transition policy;
+\end{itemize}
+
+Hyphotheses space $H$ of all the approximation $h$ of $c$, Learning can be a searching problem in $H$ to find the best $h$.
+An hypothesis $h$ is consistent with the train set $D$ if $c(x) = h(x) \forall x \in D$.
+
+We define $VS_{H,D} := \{h \in H | h $ is consistent with $ D\}$.
+
+If any subsets of teh instances can be represented in $VS_{H,D}$ and it is complete then it is not able to classify new instances $x' \notin D$. In fact different hypotheses in $VS_{H,D}$ may return different values for $x'$.
+
+In case of noise in $D$ then $VS_{H,D} = \emptyset$ and statistical methods are needed to remove the noise.

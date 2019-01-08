@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{relsize}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+
+\DeclareMathOperator*{\E}{\mathbb{E}}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\lstdefinelanguage{pseudocode}{
+    alsodigit = {-},
+    keywords = {algorithm,new,if,else,while,for,foreach,to,do,in,return,true,false,and,or,not,error,is,skip}
+}
+
+\lstnewenvironment{pseudo}[1][]{
+    \lstset{
+        language=pseudocode,
+        mathescape=true,
+        numbers=left,
+        stepnumber=1,
+        breaklines=true,
+        basicstyle=\linespread{1.0},
+        keywordstyle=\bfseries,
+        stringstyle=\color{red}\ttfamily,
+        columns=fullflexible,
+        otherkeywords={},
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+        showstringspaces=false,
+    }
+    \lstdefinestyle{nonumbers}
+    {numbers=none}
+}{}
+
+
+
+\begin{document}
+
+\include{intro}
+\include{eval}
+\include{trees}
+\include{bayes}
+\include{linear}
+
+\end{document}

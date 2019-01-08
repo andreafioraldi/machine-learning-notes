@@ -1,0 +1,71 @@
+\section{Decision Trees}
+
+Given $X$ formed by values coming from a set of attributes, a {\em decision tree} is a tree defined as follows:
+
+\begin{itemize}
+    \item each internel node test an attribute;
+    \item each branch represents a value of an attribute;
+    \item each eaf assign a classification value;
+\end{itemize}
+
+Such tree represents a disjunction of conjuctions of constraints on the attribute value $v \in A$ of the instance $x$.
+
+An example dataset:
+
+\bigskip
+\begin{tabular}{|l|l|l|l|l|} \hline
+\textbf{outlook} & \textbf{temperature} & \textbf{humidity} & \textbf{wind} & \textbf{play?} \\ \hline
+sunny & hot & high & weak & no \\ \hline
+sunny & hot & high & strong & no \\ \hline
+overcast & hot & high & weak & yes \\ \hline
+rain & mild & high & weak & yes \\ \hline
+\end{tabular}
+\bigskip
+
+To create the decision tree, we have to choose a target attribute. For example, considering the table above, we choose play?.
+
+\begin{pseudo}
+algorithm $ID3(examples, target\_attribute, attributes)$
+    $root := $ new $Node()$
+    if $label(e)$ is $+$ $\forall e \in examples$
+        $label(root) = +$
+        return $root$
+    if $label(e)$ is $-$ $\forall e \in examples$
+        $label(root) = -$
+        return $root$
+    if $attributes$ is $\emptyset$
+        $label(root) = $ most common value of $target\_attribute$ in $examples$
+        return $root$
+    $A := best\_decision\_attribute(examples)$
+    $label(root) = A$
+    foreach $v \in A$
+        $branch := add\_branch(root, test(A = v))$
+        $E_v := \{e \in examples | e_A = v\}$
+        if $E_v$ is $\emptyset$
+            $leaf := $ new $Node()$
+            $label(leaf) = $ most common value of $target\_attribute$ in $examples$
+            $add\_node(root, branch, leaf)$
+        else
+            $add\_subtree(root, branch, ID3(E_v, target\_attribute, attributes \setminus \{A\}))$
+\end{pseudo}
+
+With ID3 you can seach in the hypothesis space in a complete way and create an hypothesis tree.
+
+How is computed the best decision attribute? ID3 select the attribute with the highest information gain that is how well it separates the training examples. We can measure the information gain using the entropy.
+
+Let $p_+$ the proportion of positive examples ($|positive\text{ }examples|/|examples|$) and $p_- = 1 - p_+$ the proprotion of negative examples. 
+\[
+entropy(examples) = - p_+ * log_2(p_+) - p_- * log_2(p_-)
+\]
+Then we define the information gain:
+\[
+gain(examples) = entropy(examples) - \mathlarger{\sum}_{v \in A}\frac{|E_v|}{|examples|}*entropy(examples)
+\]
+
+To avoid overfitting we can stop growing the tree when the data is not splitting in a significant way or build the complete tree and then perform post pruning replacing subtrees with the more common value in order to improve accuracy on validation set.
+
+If attributes have contonious values, the tree must be build using intervals (e.g. $A < 10$ and $A > 10$).
+
+Random Forest is an esemble method that builds many trees using random criteria (e.g. random picking attributes). The reuslt is the most common classification of the trees. Random Forest is less prone to overfitting.
+
+
