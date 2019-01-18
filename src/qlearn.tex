@@ -1,0 +1,62 @@
+\section{Q Learning}
+
+If functions $r$ and $\delta$ are not known we have training examples in form $\{(x_n, a_n, r_n)_{n=1}^N\}$. The agent cannot predict the effect of an action. So the learning now is:
+
+\begin{enumerate}
+    \item choose an action;
+    \item execute such action;
+    \item observe the resulting state;
+    \item collect reward;
+\end{enumerate}
+
+First type is value iteration. The agent could learn $V^{\pi^*}(x) = V^*(x)$ and use it to determinate the optimal policy $\pi^*(x) = \arg\max_{a \in A} \big[r(x,a) + \gamma*V^*(\delta(x,a))$ but this is impossible since $r$ and $\delta$ are unknown.
+
+Let $Q^\pi(x, a) = r(x,a) + \gamma*V^\pi(\delta(x,a))$ the expected value when executing $a$ in $x$ and then act accordingly to $\pi$.
+We have that:
+
+\[
+Q^\pi(x,a) = \mathlarger{\sum}_{x'} P(x' | x, a)*(r(x,a,x') + \gamma*V^\pi(x'))
+\]
+
+If the agent learns Q the $\pi^*$ can be computed without knowing $r$ and $\delta$.
+
+The learning rule in the deterministic case is: $Q(x_t, a_t) = r(x_t, a_t) + \gamma*\max_{a' \in A} Q(x_{t+1},a')$
+
+Let $\hat{Q}$ the current learner approximation and $\bar{r}$ the immediate reward.
+
+\[
+\hat{Q}(x, a) = \bar{r} + \gamma*\max_{a' \in A} \hat{Q}(x',a')
+\]
+
+The algorithm has a table entry for each couple $x,a$ and tiem instant.
+
+\begin{enumerate}
+    \item Set all $\hat{Q}_{(0)}(x, a) = 0$;
+    \item Observe $x$;
+    \item For each time until the termination condition do
+        \begin{enumerate}
+            \item Choose an action $a$;
+            \item Execute it;
+            \item Observe the new state $x'$;
+            \item Collect the immediate reward $\bar{r}$;
+            \item Set $\hat{Q}_{(t)}(x, a) = \bar{r} + \gamma*\max_{a' \in A} \hat{Q}_{(t-1)}(x',a')$;
+            \item $x = x'$;
+        \end{enumerate}
+\end{enumerate}
+
+Optimal policy $\pi^*(x) = \arg\max_{a \in A} Q_{(\text{last})}(x,a)$.
+
+How to choose an action?
+The agent can select an cation that maximize $\hat{Q}(x, a)$ ({\em exploitation}) or one with a low value of $\hat{Q}(x, a)$ ({\em exploration}).
+
+Tipically do exploration with probability $\epsilon$ that decrease with time.
+
+A strategy is teh soft-max strategy. Higher $\hat{Q}$ have higher probabilities but all actions have probability more than 0.
+
+\[
+P(a_i|x) = \frac{k^{\hat{Q}(x, a_i)}}{\mathlarger{\sum}_j k^{\hat{Q}(x, a_j)}}
+\]
+
+$k$ higher selects an higher $\hat{Q}$ with more probability, so tipically $k$ increase with time (first exploration then exploitation).
+
+

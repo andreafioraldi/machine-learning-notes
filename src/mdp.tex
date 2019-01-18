@@ -1,0 +1,33 @@
+\section{Markow Decision Process}
+
+Notation:
+\begin{itemize}
+    \item $X$ set of states;
+    \item $A$ set of actions;
+    \item $\delta$ transition function;
+    \item $Z$ set of observations;
+\end{itemize}
+
+The properties are that once a state is know it contains all the information to predict the future that does not depends from previous states.
+
+Let $r: X \rightarrow R$ the reward function. In MDP state are fully observable. The objective of MDP is to find an optial policy $\pi: X \rightarrow A$ that for each state gives the optimal action to take.
+
+Optimality is maximizing the comulative reward $V^\pi(x_1) = E\big[r_1+\gamma*r_2+\gamma^2*r_3 + ...\big]$ where $r_t = r(x_t, a_t, x_{t+1})$, $a_t = \pi(x_t)$ and $\gamma \in [0,1]$ called discount factor for future rewards.
+
+So the optimal policy is $\pi^* = \arg\max_\pi V^\pi(x) \forall x \in X$.
+
+\subsection{One State MDP}
+
+Assume $X = \{x_0\}$, $\delta(x_0, a_i) = x_0 \forall a_i \in A$, $r(x_0, a_i, x_0) = r(a_i)$. The optimal policy is one actions in A.
+
+If $r$ is deterministic and known $\pi^*(x_0) = \arg\max_{a_i \in A} r(a_i)$.
+
+If $r$ is deterministic and unknown then execute each $a_i$ ($|A|$ executions), collect the rewards and return the best $a_i$.
+
+If $r$ is not deterministic and known $\pi^*(x_0) = \arg\max_{a_i \in A} E[r(a_i)]$.
+
+If $r$ is not deterministic and unknown collect many times $T$ the rewards for actions and update a data structure at entry $a_i$ with the average of all rewards of $a_i$.
+
+
+
+

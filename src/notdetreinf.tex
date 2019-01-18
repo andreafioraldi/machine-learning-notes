@@ -1,0 +1,17 @@
+\section{Not Deterministic Reinforcement Learning}
+
+In the not deterministic case we have that:
+
+\[
+Q^\pi(x, a) = E\big[r(x,a) + \gamma*V^\pi(\delta(x,a))\big] = E[r(x,a)] + \gamma*\mathlarger{\sum}_{x'} P(x' | x, a)*\max_{a'} Q(x',a')
+\]
+
+The training rule is
+
+\[
+\hat{Q}_n(x,a) = \hat{Q}_{n-1}(x,a) + \alpha*\big(r + \gamma*\max_{a'}\hat{Q}(x',a') + \hat{Q}(x,a)\big)
+\]
+
+With $\alpha = \alpha_{n-1}(x,a) = \frac{1}{1 + visits_{n-1}(x,a)}$ and visits the number of visits of the pairs $x,a$ until time $n$.
+
+In not deterministic $\hat{Q}_{n+1}(x,a) \geq \hat{Q}_n(x,a)$ is not valid, use Temporal Difference or SARSA.

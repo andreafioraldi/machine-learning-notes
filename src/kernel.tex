@@ -1,0 +1,27 @@
+\section{Kernels}
+
+Kernel function: similarity measure $k(x,x') \geq 0$. Typically is also simmetric.
+
+Linear kernel: $k(x,x') = x^T*x'$.
+
+Considering a linear model $y(x,w)=w^T*x$ we want to minimize $J(w) = (t - X*w)^T*(t - X*w) + \lambda*||w||^2$.
+
+... TODO
+
+Any linear model with kernel $k$: $y(x, \hat{w}) = \sum_{i=1}^N \alpha_i *k(x,x')$.
+
+The solution is $\alpha = (K + \lambda*I_N)^{-1}*t$.
+
+The Gram matrix is:
+
+\[
+K = \begin{pmatrix}
+k(x_1,x_1) & ... & k(x_1, x_N) \\
+... & ... & ... \\
+k(x_N,x_1) & ... & k(x_N, x_N) \\
+\end{pmatrix}
+\]
+
+Kerne trick: substitute an inner product with a kernel to extend a linear model.
+
+

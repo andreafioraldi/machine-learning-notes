@@ -1,0 +1,25 @@
+\section{Linear Regression}
+
+Learning $X \subseteq R^d$ and $Y = R$ from datatset $D = \{(x_n, t_n)^N_{n=1}\}$.
+
+Linear model for linear function: $y(x, w) = w_0 + w_1*x_1 + ... + w_d*x_d = w^T*x$.
+
+\[
+x = \begin{pmatrix} 1 \\ x_1 \\ ... \\ x_d \end{pmatrix} \text{ } w = \begin{pmatrix} w_0 \\ w_1 \\ ... \\ w_d \end{pmatrix}
+\]
+
+Linear basis functions: $y(x, w) = w^T*\phi(x)$ with $\phi$ is a not linear transformation of the input. This is still linear in functions of $w$.
+
+Least squares error minimization:
+
+\[
+E_D(w) = \frac{1}{2}\mathlarger{\sum}_{n=1}^N \Big(t_n - w^T*\phi(x_n))\Big)^2 = \frac{1}{2}*(t - \Phi*w)^T*(t - \Phi*w)
+\]
+
+Optimal condition: $\nabla E_D = 0$, $w_{ML} = (\Phi^T*\Phi)^{-1}*\Phi^T*t$.
+
+Learning with stochastic gradient descent:
+
+$\hat{w} \leftarrow \hat{w} - \eta\nabla E_n$.
+
+So $\hat{w} \leftarrow \hat{w} - \eta*\Big(t_n + \hat{w}^T*\phi(x_n)\Big)*\phi(x_n)$.

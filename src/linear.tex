@@ -1,11 +1,105 @@
 \section{Linear Classification}
 
-Let $X \subset R^d$ and $Y = \{C_1, ..., C_k\}$ with linearly separable data.
+Let $X \subset R^d$ and $Y = \{C_1, ..., C_K\}$ with linearly separable data.
 
 Linear discriminant function:
 \begin{itemize}
     \item 2 classes: $y(x) = w^T*x + w_0$;
-    \item k classes: $y_k(x) = w_k^T*x + w_{k0}$;
+    \item k classes: $y_k(x) = w_k^T*x + w_{k_0}$ , $k = 1...K$;
 \end{itemize}
 
 When having k classes we cannot use combinations of models with two classes (class $C_i$ and $\lnot C_i$).
+Notation:
+\[
+y(x) = \tilde W^T * \tilde x \\
+\]
+With \[
+\begin{array}{ll}
+    \tilde W = \begin{pmatrix} w_{1_0} & w_{2_0} & ... & w_{K_0} \\
+    w_1 & w_2 & ... & w_k
+    \end{pmatrix}
+    & \tilde x = \begin{pmatrix} 1 \\ x \end{pmatrix}
+\end{array}
+\]
+
+Consider a dataset $D = \{(x_n, t_n)_{n=1}^N\}$.
+1-K coding cheme for $t_n$ that is a vector of $K$ binary values. All values are 0 except from the value at place $i$ when $x_n \in C_i$.
+
+\subsection{Least Squares}
+
+\[
+\begin{array}{ll}
+    \tilde{X} = \begin{pmatrix} \tilde{x}_1^T \\ ... \\ \tilde{x}_N^T \end{pmatrix} & T = \begin{pmatrix} t_1^T \\ ... \\ t_N^T \end{pmatrix}
+\end{array}
+\]
+
+Minimizes sum of squares error function (Tr is the trace operator, the sum on the principal diagonal):
+
+\[
+E(\tilde{W}) = \frac{1}{2}*Tr\Big\{(\tilde{X}*\tilde{W}-T)^T*(\tilde{X}*\tilde{W}-T)\Big\}
+\]
+\[
+\tilde{W} = (\tilde{X}^T*\tilde{X})^{-1}*\tilde{X}^T*T
+\]
+
+This is not robust to outliners.
+
+\subsection{Fisher}
+
+Two classes $C_1, C_2$ case. Find the medium $m_1 = \frac{1}{N_1}\sum_{n \in C_1} x_n$ and $m_2 = \frac{1}{N_2}\sum_{n \in C_2} x_n$.
+
+There is a line $J(w) = w^T*(m2-m1)$. We want maximizes it with the constraint $||w||=1$. We have that $w = -\frac{1}{m_2-m_1}$ that is the ortogonal line to $J$.
+
+To be robust to outlines we use the variance.
+
+Fihser criterion: 
+
+\[
+J(w) = \frac{w^T*S_B*w}{w^T*S_W*w}
+\]
+with
+\[
+\begin{array}{l}
+S_B = (m_2-m_1)*(m_2-m_1)^T \\ S_W = \sum_{n \in C_1}(x_n - m_1)*(x_n - m_1)^T + \sum_{n \in C_2}(x_n - m_2)*(x_n - m_2)^T
+\end{array}
+\]
+
+$w^* = -\frac{1}{S_w^{-1}*(m_2-m_1)}$ maximizes $J$.
+
+\subsection{Perceptron}
+
+\[
+o(x) = \begin{cases}
+1 & \text{if }w^T*x > 0 \\
+-1 & \text{otherwise} \\
+\end{cases}
+\]
+
+Weigths $w_i \in w$ must be learned from $D = \{(x_n, t_n)_{n=1}^N\}$ that minimize the square error (loss function):
+\[
+E(w) = \frac{1}{2}\mathlarger{\sum}_{n=1}^N(t_n - o_n)^2 = \frac{1}{2}\mathlarger{\sum}_{n=1}^N(t_n - w^T*x)^2
+\]
+
+With $o = w_0 + w_1*x_1 + ... + w_d*x_d$ ($x_0=1$).
+
+Training rule:
+
+\[
+\frac{\partial{E(w)}}{\partial{w_i}} = \mathlarger{\sum}_{n=1}^N(t_n - w^T*x_n)*(-x_{i,n})
+\]
+
+Updating $w_i$: $w_i \leftarrow w_i - \eta*\frac{\partial{E(w)}}{\partial{w_i}}$ whee $\eta$ is small (like $0.05$) and called learning rate.
+
+Algorithm:
+
+\begin{enumerate}
+    \item Initialize $w'$ with small random values;
+    \item Repeat the udating $w'_i$ procedure until termination condition (e.g. finite number of iteration or treshold on $E(w)$);
+    \item Output $w'$;
+\end{enumerate}
+
+\subsection{Support Vector Machine}
+
+\subsection{Linear Models for Non Linear Dataset}
+
+If a dataset is not linearly separable we can consider to apply a non linear transformation to the input and then apply a linear model.

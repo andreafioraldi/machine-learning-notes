@@ -59,7 +59,7 @@ entropy(examples) = - p_+ * log_2(p_+) - p_- * log_2(p_-)
 \]
 Then we define the information gain:
 \[
-gain(examples) = entropy(examples) - \mathlarger{\sum}_{v \in A}\frac{|E_v|}{|examples|}*entropy(examples)
+gain(examples) = entropy(examples) - \mathlarger{\sum}_{v \in A}\frac{|E_v|}{|examples|}*entropy(E_v)
 \]
 
 To avoid overfitting we can stop growing the tree when the data is not splitting in a significant way or build the complete tree and then perform post pruning replacing subtrees with the more common value in order to improve accuracy on validation set.

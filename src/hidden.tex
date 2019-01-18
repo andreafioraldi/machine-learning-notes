@@ -1,0 +1,12 @@
+\section{Hidden Markov Models}
+
+States are discrete and not observable. Observations (discrete or continuos) $z_t$ are avaiable.
+
+\begin{itemize}
+    \item Transition model: $P(x_t|x_{t-1})$;
+    \item Observation Model: $P(z_t|x_t)$ ($b_k(z_t) = P(z_t|x_t=k)$);
+    \item Initial distribution: $\pi_0 = P(x_0)$;
+    \item State transition matrix $A$ where $A_{i,j} = P(x_t = j | x_{t-1} = i)$;
+\end{itemize}
+
+
